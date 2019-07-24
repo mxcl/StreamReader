@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Path.swift",
+        "repositoryURL": "https://github.com/mxcl/Path.swift",
+        "state": {
+          "branch": null,
+          "revision": "dfad7367b757e5f467471d4a85b3247bf47148eb",
+          "version": "1.0.0-alpha.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

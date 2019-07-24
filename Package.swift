@@ -7,7 +7,7 @@ let package = Package(
         .library(name: "StreamReader", targets: ["StreamReader"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/mxcl/Path.swift", from: "0.16.2"),
+        .package(url: "https://github.com/mxcl/Path.swift", from: "1.0.0-alpha.1"),
     ],
     targets: [
         .target(name: "StreamReader", dependencies: ["Path"], path: ".", sources: ["StreamReader.swift"]),
