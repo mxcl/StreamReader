@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         xcode: [^10, ^11, ^12]
-        # conf: [release, debug]
+        conf: [release, debug]
         platform: [macOS, watchOS, iOS, tvOS]
     steps:
     - uses: actions/checkout@v2
@@ -20,3 +20,5 @@ jobs:
         xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
         action: build
+        configuration: ${{ matrix.conf }}
+        warnings-as-errors: true
