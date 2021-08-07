@@ -4,15 +4,38 @@ on:
       - '*.swift'
       - .github/workflows/ci.yml
   schedule:
-    - cron: '3 3 * * 6'  # 3:03 AM, every Saturday
+    - cron: '3 4 * * 6'  # 3:04 AM, every Saturday
+concurrency:
+  group: ${{ github.head_ref || 'cron' }}
+  cancel-in-progress: true
 jobs:
-  build:
-    runs-on: macos-10.15
+  apple:
+    runs-on: ${{ matrix.os || 'macos-latest' }}
     strategy:
       matrix:
-        xcode: [^10, ^11, ^12]
-        conf: [release, debug]
-        platform: [macOS, watchOS, iOS, tvOS]
+        xcode:
+          - 10
+          - 11
+          - 12
+        os:
+          - macos-10.15
+        include:
+          - xcode: 13
+            os: macos-11
+          - xcode: 12
+            os: macos-11
+          - xcode: ~
+            platform: watchOS
+            os: ~
+          - xcode: ~
+            platform: iOS
+            os: ~
+          - xcode: ~
+            platform: tvOS
+            os: ~
+          - xcode: ~
+            platform: macOS
+            os: ~
     steps:
     - uses: actions/checkout@v2
     - uses: mxcl/xcodebuild@v1
@@ -20,5 +43,17 @@ jobs:
         xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
         action: build
-        configuration: ${{ matrix.conf }}
         warnings-as-errors: true
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - swift:4.2
+          - swift:5.4
+          - swiftlang/swift:nightly-5.5
+    container:
+      image: ${{ matrix.image }}
+    steps:
+    - uses: actions/checkout@v2
+    - run: swift build
